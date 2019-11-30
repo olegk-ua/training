@@ -1,3 +1,4 @@
 Old repo to Learn Chef.
-Now is obsolete.
+
+Now is used to learn Git.
 
