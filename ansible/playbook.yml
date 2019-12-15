@@ -1,0 +1,21 @@
+---
+- hosts: localvm
+  become: yes
+  become_user: root
+  gather_facts: true
+  tasks:
+    - name: "Apply roles"
+      include_role:
+        name: "{{ role }}"
+      with_items: "{{ roles }}"
+      loop_control:
+        loop_var: role
+
+#  roles:
+#    - nginx
+#    - letsencrypt
+#    - node-exporter
+#    - prometheus
+
+#        name: nginx
+#        name: letsencrypt

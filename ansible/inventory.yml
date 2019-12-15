@@ -1,0 +1,20 @@
+---
+  all:
+    children:
+      jenkins:
+        hosts:
+          aws:
+            ansible_host: 54.93.175.200
+            roles:
+              - prometheus
+              - node-exporter
+            proxied: true
+          localvm:
+            ansible_host: 192.168.114.107
+            ansible_port: 2222
+            roles:
+              - jenkins
+        vars:
+          ansible_become: yes
+          ansible_become_method: sudo
+          ansible_python_interpreter: /usr/bin/python3
