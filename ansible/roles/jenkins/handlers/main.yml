@@ -1,2 +1,7 @@
 ---
 # handlers file for jenkins
+- name: "restart_nginx"
+  systemd:
+    name: nginx.service
+    state: restarted
+    daemon_reload: yes

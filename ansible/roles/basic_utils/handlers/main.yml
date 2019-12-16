@@ -1,2 +1,8 @@
 ---
 # handlers file for basic_utils
+- name: start_postfix
+  systemd:
+    name: postfix.service
+    state: started
+    enabled: yes
+    daemon_reload: yes

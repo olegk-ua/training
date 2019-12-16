@@ -10,12 +10,3 @@
       with_items: "{{ roles }}"
       loop_control:
         loop_var: role
-
-#  roles:
-#    - nginx
-#    - letsencrypt
-#    - node-exporter
-#    - prometheus
-
-#        name: nginx
-#        name: letsencrypt

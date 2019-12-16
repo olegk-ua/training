@@ -8,65 +8,6 @@
 # "ansible_distribution_release": "bionic",.
 # "ansible_distribution_version": "18.04",.
 
-- name: "Install packages, required by docker"
-  apt:
-    name: [
-      'apt-transport-https',
-      'ca-certificates',
-      'curl',
-      'gnupg-agent',
-      'software-properties-common',
-      'python3-pip',
-      'python-setuptools'
-    ]
-    update_cache: yes
-    #'docker.io'
-
-- name: "Install Python modules"
-  pip:
-    name: docker-py
-
-- name: "Install Docker-CE Repo"
-  apt_repository:
-    # ToDo: ubuntu & bionic are to be replaces with variables from facts #
-    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
-    state: present
-
-- name: "Install Docker-CE"
-  apt:
-    name: docker-ce
-    state: present
-  # notify: docker_start
-
-- name: "docker_start"
-  systemd:
-    name: docker.service
-    state: started
-    enabled: yes
-    daemon_reload: yes
-
-- name: "Create a dyrectory for persistent Jenkins data"
-  file:
-    path: /var/jenkins_data
-    state: directory
-    owner: nobody
-    group: nogroup
-    mode: '0750'
-
-- name: "Install Jenkins in Docker"
-  docker_container:
-    name: jenkins
-    image: "jenkinsci/blueocean"
-    auto_remove: no
-    keep_volumes: no
-    user: nobody
-    ports:
-      - "8080:8080"
-      - "50000:50000"
-    volumes:
-      - /var/jenkins_data:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-
-#- name: "Get initial Password"
-#  cmd: "cat /var/jenkins_data/secrets/initialAdminPassword"
-#  register: init_passwd
+- name: "Install Software if Ubuntu"
+  include_tasks: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"

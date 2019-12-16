@@ -1,2 +1,7 @@
 ---
 # tasks file for basic_utils
+- name: "Install Additional Packages"
+  apt:
+    name: "{{ packages_list }}"
+    state: present
+  notify: start_postfix

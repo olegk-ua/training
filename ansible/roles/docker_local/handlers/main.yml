@@ -1,0 +1,8 @@
+---
+# handlers file for docker_local
+# - name: start_docker
+#   systemd:
+#     name: docker.service
+#     state: started
+#     enabled: yes
+#     daemon_reload: yes

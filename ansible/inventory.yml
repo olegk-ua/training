@@ -1,20 +1,27 @@
 ---
-  all:
-    children:
-      jenkins:
-        hosts:
-          aws:
-            ansible_host: 54.93.175.200
-            roles:
-              - prometheus
-              - node-exporter
-            proxied: true
-          localvm:
-            ansible_host: 192.168.114.107
-            ansible_port: 2222
-            roles:
-              - jenkins
-        vars:
-          ansible_become: yes
-          ansible_become_method: sudo
-          ansible_python_interpreter: /usr/bin/python3
+all:
+  children:
+    jenkins:
+      # all childrea - Ubuntu 18.04
+      vars:
+        ansible_become_method: sudo
+        ansible_python_interpreter: /usr/bin/python3
+      hosts:
+        localvm:
+          ansible_host: 192.168.114.107
+          ansible_port: 2222
+          server_fqdn: ubuntu_srv.localhost
+          roles:
+            - basic_utils
+            - nginx
+            - docker_local
+            - jenkins
+        jenkins_aws:
+          ansible_host: 5.5.5.5
+          ansible_port: 22
+          server_fqdn: jks.olegk.pp.ua
+          roles:
+            - basic_utils
+            - nginx
+            - docker_local
+            - jenkins
