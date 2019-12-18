@@ -5,23 +5,40 @@ all:
       # all childrea - Ubuntu 18.04
       vars:
         ansible_become_method: sudo
-        ansible_python_interpreter: /usr/bin/python3
+        ansible_become_user: root
+        # ansible_python_interpreter: /usr/bin/python3
+        roles:
+          - basic_utils
+          - nginx
+          - docker_local
+          - jenkins
       hosts:
         localvm:
           ansible_host: 192.168.114.107
           ansible_port: 2222
           server_fqdn: ubuntu_srv.localhost
-          roles:
-            - basic_utils
-            - nginx
-            - docker_local
-            - jenkins
+          # roles:
+          #   - basic_utils
+          #   - nginx
+          #   - docker_local
+          #   - jenkins
+          ansible_python_interpreter: /usr/bin/python3
         jenkins_aws:
           ansible_host: 5.5.5.5
           ansible_port: 22
           server_fqdn: jks.olegk.pp.ua
-          roles:
-            - basic_utils
-            - nginx
-            - docker_local
-            - jenkins
+          # roles:
+          #   - basic_utils
+          #   - nginx
+          #   - docker_local
+          #   - jenkins
+          ansible_python_interpreter: /usr/bin/python3
+        centos_7:
+          ansible_host: 192.168.0.5
+          ansible_port: 22
+          server_fqdn: jks.localhost.loc
+          # roles:
+          #   - basic_utils
+          #   - nginx
+          #   - docker_local
+          #   - jenkins

@@ -8,24 +8,6 @@
     group: nogroup
     mode: '0750'
 
-- name: "Install Jenkins in Docker"
-  docker_container:
-    name: jenkins
-    image: "jenkinsci/blueocean"
-    auto_remove: no
-    keep_volumes: no
-    user: nobody
-    ports:
-      - "8080:8080"
-      - "50000:50000"
-    volumes:
-      - /var/jenkins_data:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-
-#- name: "Get initial Password"
-#  cmd: "cat /var/jenkins_data/secrets/initialAdminPassword"
-#  register: init_passwd
-
 - name: "Reconfigure NGINX"
   template:
     src: jenkins.conf.j2

@@ -1,26 +1,52 @@
 ---
 # tasks file for docker_local
-- name: "Install packages, required by docker"
-  apt:
-    name: "{{ docker_packages }}"
-    update_cache: yes
+# - name: "Install DEB packages, required by docker"
+#   apt:
+#     name: "{{ ubuntu_docker_packages }}"
+#     update_cache: yes
+#   when: ansible_distribution == "Ubuntu"
+#
+# - name: "Install Python modules"
+#   pip:
+#     name: docker-py
+#   when: ansible_distribution == "Ubuntu"
+#
+# - name: "Install RPM packages, required by Docker"
+#   yum:
+#     name: "{{ centos_docker_packages }}"
+#     state: present
+#   when: ansible_distribution == "CentOS"
+#
+# - name: "Install Docker-CE DEB Repo"
+#   apt_repository:
+#     repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+#     state: present
+#   when: ansible_distribution == "Ubuntu"
+#
+# - name: "Install Docker-CE RPM Repo"
+#   command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+#   when: ansible_distribution == "CentOS"
+#
+# - name: "Install Docker-CE Deb"
+#   apt:
+#     name: docker-ce
+#     state: present
+#   when: ansible_distribution == "Ubuntu"
+#   # notify: docker_start
+#
+# - name: "Install Docker-CE RPM"
+#   yum:
+#     name: docker-ce
+#     state: present
+#   when: ansible_distribution == "CentOS"
 
-- name: "Install Python modules"
-  pip:
-    name: docker-py
-
-- name: "Install Docker-CE Repo"
-  apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
-    state: present
+- name: "Install Software if Ubuntu"
+  include_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu"
 
-- name: "Install Docker-CE"
-  apt:
-    name: docker-ce
-    state: present
-  when: ansible_distribution == "Ubuntu"
-  # notify: docker_start
+- name: "Install Software if CentOS"
+  include_tasks: centos.yml
+  when: ansible_distribution == "CentOS"
 
 - name: "docker_start"
   systemd:

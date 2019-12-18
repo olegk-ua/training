@@ -1,5 +1,5 @@
 ---
-- hosts: localvm
+- hosts: centos_7
   become: yes
   become_user: root
   gather_facts: true
@@ -10,3 +10,17 @@
       with_items: "{{ roles }}"
       loop_control:
         loop_var: role
+
+#        "ansible_distribution": "Ubuntu",.
+#        "ansible_distribution_file_path": "/etc/os-release",.
+#        "ansible_distribution_file_variety": "Debian",.
+#        "ansible_distribution_major_version": "18",.
+#        "ansible_distribution_release": "bionic",.
+#        "ansible_distribution_version": "18.04",.
+#
+#        "ansible_distribution": "CentOS",.
+#        "ansible_distribution_file_path": "/etc/redhat-release",.
+#        "ansible_distribution_file_variety": "RedHat",.
+#        "ansible_distribution_major_version": "7",.
+#        "ansible_distribution_release": "Core",.
+#        "ansible_distribution_version": "7.6",.

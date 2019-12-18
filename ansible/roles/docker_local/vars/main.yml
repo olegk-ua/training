@@ -1,6 +1,6 @@
 ---
 # vars file for docker-local
-docker_packages:
+ubuntu_docker_packages:
   - apt-transport-https
   - ca-certificates
   - curl
@@ -10,3 +10,8 @@ docker_packages:
   - python-setuptools
 
 #docker.io
+centos_docker_packages:
+  - yum-utils
+  - device-mapper-persistent-data
+  - lvm2
+  - python-pip

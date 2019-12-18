@@ -1,6 +1,6 @@
 ---
 # vars file for basic_utils
-packages_list:
+ubuntu_packages_list:
   - htop
   - atop
   - iftop
@@ -8,4 +8,12 @@ packages_list:
   - wget
   - curl
   - postfix
-#- smtpd (postfix)
+
+centos_packages_list:
+  - htop
+  - atop
+  - iftop
+  - vim
+  - wget
+  - curl
+  #- epel-release

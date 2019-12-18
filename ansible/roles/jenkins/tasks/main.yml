@@ -8,6 +8,36 @@
 # "ansible_distribution_release": "bionic",.
 # "ansible_distribution_version": "18.04",.
 
-- name: "Install Software if Ubuntu"
+# - name: "Create a dyrectory for persistent Jenkins data"
+#   file:
+#     path: /var/jenkins_data
+#     state: directory
+#     owner: nobody
+#     group: nogroup
+#     mode: '0750'
+
+- name: "Install Jenkins in Docker"
+  docker_container:
+    name: jenkins
+    image: "jenkinsci/blueocean"
+    auto_remove: no
+    keep_volumes: no
+    user: nobody
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - /var/jenkins_data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+
+#- name: "Get initial Password"
+#  cmd: "cat /var/jenkins_data/secrets/initialAdminPassword"
+#  register: init_passwd
+
+- name: "Configure Nginx if Ubuntu"
   include_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu"
+
+- name: "Configure Nginx if Centos"
+  include_tasks: centos.yml
+  when: ansible_distribution == "CentOS"

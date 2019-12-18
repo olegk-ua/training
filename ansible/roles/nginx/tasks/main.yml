@@ -1,9 +1,28 @@
 ---
 # tasks file for nginx
-- name: "Install NGINX"
+- name: "Install NGINX DEB"
   apt:
     name: "nginx"
     state: present
     update_cache: yes
+  when: ansible_distribution == "Ubuntu"
   notify: start_nginx
-  
+
+- name: "Add NGINX CentOS 7 repo"
+  yum_repository:
+    name: nginx
+    description: NGINX repo
+    file: nginx
+    baseurl: http://nginx.org/packages/centos/$releasever/$basearch/
+    gpgcheck: no
+    enabled: yes
+  when: ansible_distribution == "CentOS"
+
+- name: "Install NGINX RPM"
+  yum:
+    name: nginx
+    state: present
+    enablerepo: "nginx"
+    disablerepo: "*"
+  when: ansible_distribution == "CentOS"
+  notify: start_nginx

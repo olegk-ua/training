@@ -5,7 +5,7 @@ upstream app_server {
 
 server {
     listen 80;
-    listen [::]:80 default;
+    # listen [::]:80 default;
     server_name {{ server_fqdn }};
 
     # ToDo: add section with ssl certs #

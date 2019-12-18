@@ -1,7 +1,20 @@
 ---
 # tasks file for basic_utils
-- name: "Install Additional Packages"
+- name: "Install Additional DEB Packages"
   apt:
-    name: "{{ packages_list }}"
+    name: "{{ ubuntu_packages_list }}"
     state: present
   notify: start_postfix
+  when: ansible_distribution == "Ubuntu"
+
+- name: "Install EPEL RPM Repo"
+  yum:
+    name: epel-release
+    state: present
+  when: ansible_distribution == "CentOS"
+
+- name: "Install Additional RPM Packages"
+  yum:
+    name: "{{ centos_packages_list }}"
+    state: present
+  when: ansible_distribution == "CentOS"
