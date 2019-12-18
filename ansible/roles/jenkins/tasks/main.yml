@@ -8,13 +8,15 @@
 # "ansible_distribution_release": "bionic",.
 # "ansible_distribution_version": "18.04",.
 
-# - name: "Create a dyrectory for persistent Jenkins data"
-#   file:
-#     path: /var/jenkins_data
-#     state: directory
-#     owner: nobody
-#     group: nogroup
-#     mode: '0750'
+## Users ##
+# nobody inside the container uid: 65534
+# nobody in Ubuntu            uid: 65534
+# jenkins_data in CentOS      uid: 65534 (Created by the Playbook)
+#
+## Groups ##
+# nobody inside the container uid: 65534
+# nobgroup in Ubuntu          uid: 65534
+# jenkins_data in CentOS      uid: 65534 (Created by the Playbook)
 
 - name: "Install Jenkins in Docker"
   docker_container:

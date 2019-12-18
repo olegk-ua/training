@@ -1,11 +1,26 @@
 ---
 # tasks file for jenkins
+
+- name: "Create Group"
+  group:
+    name: jenkins_data
+    gid: 65534
+    state: present
+    system: no
+
+- name: "Create user"
+  user:
+    name: jenkins_data
+    uid: 65534
+    shell: /sbin/nologin
+    group: jenkins_data
+
 - name: "Create a dyrectory for persistent Jenkins data"
   file:
     path: /var/jenkins_data
     state: directory
-    owner: nobody
-    group: nobody
+    owner: jenkins_data
+    group: jenkins_data
     mode: '0750'
 
 - name: "Reconfigure NGINX"
