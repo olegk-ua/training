@@ -1,2 +1,34 @@
 ---
-# tasks file for letsencrypt
+# tasks file for letsencrypt- name: Install letsencrypt
+- name: "Install Letsencrypt"
+  apt:
+    name: letsencrypt
+    state: present
+    update_cache: yes
+
+- name: stop Nginx
+  service:
+    name: nginx
+    state: stopped
+
+- name: Setup SSL
+  command: letsencrypt certonly --standalone --agree-tos --no-eff-email --email "{{ admin_email }}" -d "{{ server_fqdn }}"
+  args:
+    creates: /etc/letsencrypt/live/{{ server_fqdn }}/fullchain.pem
+
+- name: start Nginx
+  service:
+    name: nginx
+    state: restarted
+
+- name: Renew certs once a 2 month
+  cron:
+    name: renew ssl
+    job: "certbot renew —quiet"
+    month: "*/1"
+    weekday: "*"
+    day: "*"
+    hour: "*"
+    minute: "0"
+    state: present
+    backup: yes

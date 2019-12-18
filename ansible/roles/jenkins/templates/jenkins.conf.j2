@@ -5,15 +5,24 @@ upstream app_server {
 
 server {
     listen 80;
-    # listen [::]:80 default;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
     server_name {{ server_fqdn }};
 
-    # ToDo: add section with ssl certs #
+    ssl on;
+    ssl_certificate         /etc/letsencrypt/live/{{ server_fqdn }}/fullchain.pem;
+    ssl_certificate_key     /etc/letsencrypt/live/{{ server_fqdn }}/privkey.pem;
 
     location / {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
         proxy_redirect off;
+
+        # proxy_pass          http://{{ server_fqdn }};
+        # proxy_redirect      http://short_hostname https://{{ server_fqdn }}/;
 
         if (!-f $request_filename) {
             proxy_pass http://app_server;

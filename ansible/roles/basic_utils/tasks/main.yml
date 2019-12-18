@@ -12,9 +12,11 @@
     name: epel-release
     state: present
   when: ansible_distribution == "CentOS"
+        or ansible_distribution == "Amazon"
 
 - name: "Install Additional RPM Packages"
   yum:
     name: "{{ centos_packages_list }}"
     state: present
   when: ansible_distribution == "CentOS"
+        or ansible_distribution == "Amazon"

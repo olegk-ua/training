@@ -1,5 +1,14 @@
 ---
 # tasks file for jenkins
+## Users ##
+# nobody inside the container uid: 65534
+# nobody in Ubuntu            uid: 65534
+# jenkins_data in CentOS      uid: 65534 (Created by the Playbook)
+#
+## Groups ##
+# nobody inside the container uid: 65534
+# nobgroup in Ubuntu          uid: 65534
+# jenkins_data in CentOS      uid: 65534 (Created by the Playbook)
 
 - name: "Create Group"
   group:
@@ -22,6 +31,25 @@
     owner: jenkins_data
     group: jenkins_data
     mode: '0750'
+
+- name: "Install Jenkins in Docker"
+  docker_container:
+    name: jenkins
+    image: "jenkinsci/blueocean"
+    auto_remove: no
+    keep_volumes: no
+    user: nobody
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - /var/jenkins_data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+
+- name: "Remove Default config"
+  file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
 
 - name: "Reconfigure NGINX"
   template:

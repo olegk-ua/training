@@ -1,5 +1,15 @@
 ---
 # tasks file for jenkins
+## Users ##
+# nobody inside the container uid: 65534
+# nobody in Ubuntu            uid: 65534
+# jenkins_data in CentOS      uid: 65534 (Created by the Playbook)
+#
+## Groups ##
+# nobody inside the container uid: 65534
+# nobgroup in Ubuntu          uid: 65534
+# jenkins_data in CentOS      uid: 65534 (Created by the Playbook)
+
 - name: "Create a dyrectory for persistent Jenkins data"
   file:
     path: /var/jenkins_data
@@ -7,6 +17,20 @@
     owner: nobody
     group: nogroup
     mode: '0750'
+
+- name: "Install Jenkins in Docker"
+  docker_container:
+    name: jenkins
+    image: "jenkinsci/blueocean"
+    auto_remove: no
+    keep_volumes: no
+    user: nobody
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - /var/jenkins_data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
 
 - name: "Reconfigure NGINX"
   template:

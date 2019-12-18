@@ -2,16 +2,16 @@
 all:
   children:
     jenkins:
-      # all childrea - Ubuntu 18.04
+      # group vars
       vars:
         ansible_become_method: sudo
         ansible_become_user: root
-        # ansible_python_interpreter: /usr/bin/python3
         roles:
           - basic_utils
           - nginx
           - docker_local
           - jenkins
+          - letsencrypt
       hosts:
         localvm:
           ansible_host: 192.168.114.107
@@ -23,22 +23,20 @@ all:
           #   - docker_local
           #   - jenkins
           ansible_python_interpreter: /usr/bin/python3
-        jenkins_aws:
-          ansible_host: 5.5.5.5
+        ubuntu_aws:
+          ansible_host: ec2-18-195-33-6.eu-central-1.compute.amazonaws.com
           ansible_port: 22
+          ansible_user: ubuntu
           server_fqdn: jks.olegk.pp.ua
-          # roles:
-          #   - basic_utils
-          #   - nginx
-          #   - docker_local
-          #   - jenkins
+          admin_email: olegk.ua@gmail.com
           ansible_python_interpreter: /usr/bin/python3
         centos_7:
-          ansible_host: 192.168.0.5
+          ansible_host: 192.168.114.67
           ansible_port: 22
+          ansible_user: olegk
           server_fqdn: jks.localhost.loc
-          # roles:
-          #   - basic_utils
-          #   - nginx
-          #   - docker_local
-          #   - jenkins
+        amazon_2:
+          ansible_host: ec2-n.amazonaws.com
+          ansible_port: 22
+          ansible_user: ec2-user
+          server_fqdn: jks.localhost.loc
