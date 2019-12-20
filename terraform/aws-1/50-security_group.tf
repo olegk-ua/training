@@ -17,7 +17,6 @@ resource "aws_security_group" "tf-instance" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    lab_7 = "7"
-    dev   = "yes"
+    Name = "lab_7"
   }
 }
