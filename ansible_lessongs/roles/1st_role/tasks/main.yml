@@ -1,0 +1,15 @@
+---
+- name: Inatall Apache Web Server
+  ansible.builtin.apt:
+    name: apache2
+    state: present
+    update_cache: true
+  notify: apache_handler
+  become: true
+
+- name: "Copy File to {{ apache.wwwroot }}"
+  ansible.builtin.copy:
+    dest: "{{ apache.wwwroot }}/"
+    src: favicon.ico
+  become: true
+...

@@ -1,0 +1,6 @@
+---
+apache:
+  wwwroot: '/var/www/html'
+  check: true
+
+# apache: { wwwroot: '/var/www/html', check: true }

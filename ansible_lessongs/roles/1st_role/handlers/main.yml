@@ -1,0 +1,9 @@
+---
+- name: apache_handler
+  ansible.builtin.systemd_service:
+    name: apache2
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: true
+...

@@ -1,0 +1,8 @@
+---
+apache:
+  wwwroot: '/var/www/html'
+  check: true
+
+env_type: PRO
+
+...

@@ -1,0 +1,19 @@
+---
+- name: Check Availability
+  hosts: web
+  gather_facts: false
+  tasks:
+    - name: Check that a Web Server is running
+      ansible.builtin.uri:
+        url: "http://{{ ansible_host }}/healthcheck/test"
+        return_content: false
+      register: http_out
+      delegate_to: localhost
+
+    - name: Debug
+      debug:
+      #  msg: "{{ http_out }}"
+        msg: "Request Status: {{ http_out.status }} : URL: {{ http_out.url}}"
+      #when: http_out.status != 200
+
+...

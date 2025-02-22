@@ -1,0 +1,8 @@
+---
+- name: Paly A Role with extra Variables
+  hosts: web
+  vars_files:
+    - ../var_files/dev_vars.yml
+  roles:
+    - 1st_role
+...

@@ -1,0 +1,6 @@
+---
+- name: Paly A Role with Default Role settings
+  hosts: web
+  roles:
+    - 1st_role
+...

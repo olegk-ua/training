@@ -1,0 +1,16 @@
+---
+- name: PlayBook 1 | Install deb, rpm packages
+  hosts: web
+  become: true
+  tasks:
+    - name: Inatall Apache Web Server Debian
+      ansible.builtin.apt: name=apache2 state=present update_cache=true
+      register: install_pkg_d
+      when: ansible_os_family == "Debian"
+
+    - name: Inatall Apache Web Server RedHat
+      ansible.builtin.dnf: name=httpd state=present
+      register: install_pkg_r
+      when: ansible_os_family == "RedHat"
+
+...

@@ -1,0 +1,17 @@
+
+srv-12
+
+[linux:children]
+web
+db
+
+[db]
+dbs-0[1:3] db_var=val12 db_var_1=23
+dbs-28
+
+[web]
+web-01 ansible_host=192.168.56.4
+web-02 ansible_host=192.168.56.5
+
+[web:vars]
+wev_var1=value_1

@@ -1,0 +1,47 @@
+---
+- name: "Playbook 2 | Files and Templates"
+  hosts: web
+  become: true
+  vars:
+    folder:       "healthcheck"
+    owner:        "root"
+    wwwroot:      "/var/www/html"
+    env_type:     "DEV"
+    check_status: "OK"
+  tasks:
+  - name: Create folder
+    ansible.builtin.file:
+      path: "{{ wwwroot }}/{{ folder }}"
+      state: directory
+      mode: '0755'
+
+  - name: Create File from Template
+    ansible.builtin.template:
+      dest: "{{ wwwroot }}/{{ folder }}/test"
+      src: files/test.j2
+      owner: root
+      group: root
+      mode: '0644'
+
+  - block:
+    - name: Create INDEX File
+      ansible.builtin.copy:
+        content: "Hellow World!"
+        dest: "{{ wwwroot }}/index.html"
+        mode: '0644'
+    - name: Disable SELinux
+      ansible.posix.selinux:
+        state: disabled
+    - name: Start HTTPD
+      ansible.builtin.systemd:
+        name: httpd
+        state: started
+        enabled: true
+    - name: Stop firewalld
+      ansible.builtin.systemd:
+        name: firewalld.service
+        state: stopped
+        enabled: false
+    when: ansible_os_family == "RedHat"
+
+...
