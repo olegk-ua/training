@@ -27,8 +27,8 @@ all:
           ansible_host: ec2-18-195-33-6.eu-central-1.compute.amazonaws.com
           ansible_port: 22
           ansible_user: ubuntu
-          server_fqdn: jks.olegk.pp.ua
-          admin_email: olegk.ua@gmail.com
+          server_fqdn: jks.local.net
+          admin_email: olegk@local.net
           ansible_python_interpreter: /usr/bin/python3
         centos_7:
           ansible_host: 192.168.114.67
